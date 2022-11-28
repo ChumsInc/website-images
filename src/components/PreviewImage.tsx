@@ -24,8 +24,8 @@ const PreviewImage = ({image}: PreviewImageProps) => {
                     .map(key => image.sizes[key as ImageSizePath])
                     .map((size, index) => (
                         <div className={'text-muted size-list'} key={index}>
-                            <div><a href={linkPath(image.filename)} target="_blank">{size.width}x{size.height}</a></div>
-                            <div>{numeral(size.size).format(size.size > 1000 ? '0.0b' : '0b')}</div>
+                            <div><a href={linkPath(image.filename)} target="_blank">{size?.width ?? '?'}x{size?.height ?? '?'}</a></div>
+                            <div>{numeral(size?.size).format((size?.size ?? 0) > 1000 ? '0.0b' : '0b')}</div>
                         </div>
                     ))}
             </figcaption>

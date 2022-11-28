@@ -105,9 +105,18 @@ export const sendFile = createAsyncThunk<void, File>(
 
             xhr.onreadystatechange = (ev) => {
                 if (xhr.readyState === 4 && xhr.status === 200) {
-                    const {thumb, images, saveResult} = xhr.response;
-                    const [image] = saveResult;
-                    dispatch(completeFile(file.name, thumb, image));
+                    try {
+                        const {thumb, images, saveResult} = xhr.response;
+                        dispatch(completeFile(file.name, thumb, saveResult));
+
+                    } catch(err:unknown) {
+                        if (err instanceof Error) {
+                            console.debug("onreadystatechange()", err.message);
+                            return Promise.reject(err);
+                        }
+                        console.debug("onreadystatechange()", err);
+                        return Promise.reject(new Error('Error in onreadystatechange()'));
+                    }
                 }
             };
 
