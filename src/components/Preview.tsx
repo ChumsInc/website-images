@@ -8,7 +8,7 @@ const Preview = () => {
 
     return (
         <div id="preview-images">
-            {files.map(f => <PreviewImage key={f.filename} image={f.image}/>)}
+            {files.map(f => <PreviewImage key={f.filename} filename={f.filename}/>)}
         </div>
     )
 }

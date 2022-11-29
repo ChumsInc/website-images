@@ -13,7 +13,9 @@ const store = configureStore({
     reducer: rootReducer,
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: {
-            ignoredActions: ['app/files/sendFile/pending', 'app/files/sendFile/fulfilled', 'app/files/sendFile/rejected', ],
+            ignoredActions: [
+                'app/files/sendFile/pending', 'app/files/sendFile/fulfilled', 'app/files/sendFile/rejected',
+                'app/files/sendFiles/pending', 'app/files/sendFiles/fulfilled', 'app/files/sendFiles/rejected' ],
             ignoredActionPaths: ['payload.error'],
         }
     })
