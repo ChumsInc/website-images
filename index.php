@@ -1,5 +1,8 @@
 <?php
 
+use chums\ui\WebUI2;
+use chums\user\Groups;
+use chums\ui\CSSOptions;
 
 /**
  * @package Chums
@@ -9,14 +12,12 @@
  */
 
 require_once ("autoload.inc.php");
-require_once 'access.inc.php';
 
-$bodyPath = "apps/website-image-upload";
-$title = "Image Uploader";
-$description = "Uploads images to websites product images and creates sized images.";
-
-$ui = new WebUI($bodyPath, $title, $description, true, 5);
-$ui->bodyClassName = 'container-fluid';
-$ui->AddCSS("public/styles.css");
-$ui->addManifest('public/js/manifest.json');
-$ui->Send();
+$ui = new webUI2([
+    'bodyClassName' => 'container-fluid',
+    'contentFile' => 'body.inc.php',
+    'requiredRoles' => [Groups::WEB_ADMIN],
+]);
+$ui->addCSS('public/styles.css', CSSOptions::parse(['useTimestampVersion' => true]))
+    ->addManifestJSON('public/js/manifest.json')
+    ->render();

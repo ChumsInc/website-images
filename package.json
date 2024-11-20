@@ -4,8 +4,8 @@
   "description": "Website Image Uploader",
   "main": "index.js",
   "scripts": {
-    "start": "webpack serve --config webpack.dev.js --progress",
-    "build": "webpack --config webpack.prod.js --progress --env production",
+    "start": "webpack serve --config webpack.dev.mjs --progress",
+    "build": "webpack --config webpack.prod.mjs --progress --env production",
     "version": "auto-changelog -p && git add CHANGELOG.md"
   },
   "author": "Steve Montgomery",
@@ -46,6 +46,7 @@
     "css-loader": "^7.1.2",
     "path": "^0.12.7",
     "style-loader": "^4.0.0",
+    "terser-webpack-plugin": "^5.3.10",
     "ts-loader": "^9.3.0",
     "typescript": "^5.6.3",
     "webpack": "^5.73.0",
