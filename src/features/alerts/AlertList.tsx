@@ -2,14 +2,13 @@ import React from 'react';
 import {useAppDispatch} from "../../app/configureStore";
 import {useSelector} from "react-redux";
 import {dismissAlert, selectAlerts} from "./index";
-import Alert from "react-bootstrap/Alert";
 import ContextAlert from "./ContextAlert";
 
 const AlertList = () => {
     const dispatch = useAppDispatch();
     const alerts = useSelector(selectAlerts);
 
-    const dismissHandler = (key:string|number) => dispatch(dismissAlert(key));
+    const dismissHandler = (key: string | number) => dispatch(dismissAlert(key));
 
     return (
         <div>

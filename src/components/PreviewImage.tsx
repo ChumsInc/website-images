@@ -1,7 +1,7 @@
 import React from 'react';
 import numeral from "numeral";
 import {ImageSizePath} from "chums-types";
-import {selectFileByName} from "../features/files";
+import {selectFileByName} from "../features/files/selectors";
 import {useSelector} from "react-redux";
 import {RootState} from "../app/configureStore";
 

@@ -1,9 +1,9 @@
-import {FileStatus, selectFileByName} from "../features/files";
 import {BootstrapColor} from "chums-components";
 import React from "react";
-import {useSelector} from "react-redux";
-import {RootState} from "../app/configureStore";
+import {useAppSelector} from "../app/configureStore";
 import {ProgressBar} from "react-bootstrap";
+import {FileStatus} from "../features/files/types";
+import {selectFileByName} from "../features/files/selectors";
 
 
 const barColor = (status: FileStatus): BootstrapColor => {
@@ -26,7 +26,7 @@ export interface FileItemProps {
 }
 
 export default function FileItem({fileName}: FileItemProps) {
-    const file = useSelector((state: RootState) => selectFileByName(state, fileName));
+    const file = useAppSelector((state) => selectFileByName(state, fileName));
     if (!file) {
         return null;
     }

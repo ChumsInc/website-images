@@ -1,4 +1,4 @@
-import {FileStatus} from "../files";
+import {FileStatus} from "./types";
 
 export const processingStatusList:FileStatus[] = ['pending', 'uploading'];
 export const doneStatusList:FileStatus[] = ['done'];

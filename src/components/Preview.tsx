@@ -1,7 +1,7 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
 import PreviewImage from "./PreviewImage";
-import {selectFiles} from "../features/files";
+import {selectFiles} from "../features/files/selectors";
 
 const Preview = () => {
     const files = useSelector(selectFiles);

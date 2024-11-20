@@ -1,8 +1,9 @@
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useRef, useState} from 'react';
 import classNames from 'classnames';
 import {useAppDispatch} from "../app/configureStore";
-import {clearFiles, selectInProcessCount, sendFile, sendFiles} from "../features/files";
 import {useSelector} from "react-redux";
+import {selectInProcessCount} from "../features/files/selectors";
+import {clearFiles, sendFile, sendFiles} from "../features/files/actions";
 
 const DropTarget = () => {
     const dispatch = useAppDispatch();
@@ -74,7 +75,9 @@ const DropTarget = () => {
             </div>
             <div className="text-muted"><strong className="alert-title">Uploading:</strong> {remaining}</div>
             <div className="d-grid my-1">
-                <button type="button" className="btn btn-outline-primary" disabled={remaining > 0} onClick={clearListHandler}>Clear List</button>
+                <button type="button" className="btn btn-outline-primary" disabled={remaining > 0}
+                        onClick={clearListHandler}>Clear List
+                </button>
             </div>
         </div>
     )

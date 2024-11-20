@@ -1,7 +1,9 @@
 import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
 import {ProductImage} from "chums-types";
 import {RootState} from "../../app/configureStore";
-import {FileStatus, maxFiles, selectPendingCount, selectUploadingCount} from "../files";
+import {FileStatus} from "./types";
+import {selectPendingCount, selectUploadingCount} from "./selectors";
+import {maxFiles} from "./utils";
 
 export const clearFiles = createAction('files/clearFiles');
 export const appendFile = createAction<string>('files/appendFile');

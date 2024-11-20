@@ -24,6 +24,7 @@ export default merge(common, {
         ],
     },
     output: {
+        clean: true,
         filename: "[name].[contenthash:8].js",
     },
     plugins: [

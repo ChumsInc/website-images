@@ -1,9 +1,9 @@
 import React from 'react';
 import {useSelector} from 'react-redux';
-import {selectFiles} from "../features/files";
 import FileItem from "./FileItem";
 import {ErrorBoundary} from "react-error-boundary";
 import ErrorBoundaryFallback from "../app/ErrorBoundaryFallback";
+import {selectFiles} from "../features/files/selectors";
 
 
 const FileList = () => {
