@@ -27,30 +27,6 @@ const DropTarget = () => {
 
         console.log('dropHandler()', ev.dataTransfer.files.length);
         dispatch(sendFiles(ev.dataTransfer.files));
-        // let fileIndex = 0;
-        // const files = ev.dataTransfer.files;
-        // const t = window.setInterval(() => {
-        //     console.log('remaining', {remaining, fileIndex, intervalId});
-        //     if (remaining < 1 && fileIndex < files.length) {
-        //         console.log('dropping', fileIndex);
-        //         const file = files[fileIndex];
-        //         if (file) {
-        //             dispatch(sendFile(file));
-        //         }
-        //         fileIndex += 1;
-        //     }
-        //     if (fileIndex >= files.length) {
-        //         window.clearInterval(intervalId);
-        //     }
-        // }, 1000);
-        // setIntervalId(t);
-        // for (let i = 0; i < ev.dataTransfer.files.length; i++) {
-        //     const file = ev.dataTransfer.files[i];
-        //     if (files) {
-        //         files.push(file);
-        //     }
-        //     dispatch(sendFile(file));
-        // }
     }
 
     const dragOverHandler = (ev: React.DragEvent) => {

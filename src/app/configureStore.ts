@@ -1,8 +1,8 @@
 import {combineReducers} from "redux";
-import {default as filesReducer} from '../features/files';
 import {configureStore} from "@reduxjs/toolkit";
 import {TypedUseSelectorHook, useDispatch, useSelector} from "react-redux";
-import {default as alertsReducer} from "chums-connected-components/dist/alerts";
+import filesReducer from '../features/files/index';
+import alertsReducer from "../features/alerts";
 
 const rootReducer = combineReducers({
     alerts: alertsReducer,
@@ -14,8 +14,8 @@ const store = configureStore({
     middleware: (getDefaultMiddleware) => getDefaultMiddleware({
         serializableCheck: {
             ignoredActions: [
-                'app/files/sendFile/pending', 'app/files/sendFile/fulfilled', 'app/files/sendFile/rejected',
-                'app/files/sendFiles/pending', 'app/files/sendFiles/fulfilled', 'app/files/sendFiles/rejected' ],
+                'files/sendFile/pending', 'files/sendFile/fulfilled', 'files/sendFile/rejected',
+                'files/sendFiles/pending', 'files/sendFiles/fulfilled', 'files/sendFiles/rejected' ],
             ignoredActionPaths: ['payload.error'],
         }
     })

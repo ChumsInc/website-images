@@ -1,18 +1,18 @@
 import React from 'react';
 import numeral from "numeral";
-import {ImageSize, ImageSizePath, ProductImage} from "chums-types";
-import {FileStatus, selectFileByName} from "../features/files";
+import {ImageSizePath} from "chums-types";
+import {selectFileByName} from "../features/files";
 import {useSelector} from "react-redux";
 import {RootState} from "../app/configureStore";
 
-const linkPath = (filename: string, path?:ImageSizePath) => `/images/products/${path ?? '400'}/${filename}`;
+const linkPath = (filename: string, path?: ImageSizePath) => `/images/products/${path ?? '400'}/${filename}`;
 
 export interface PreviewImageProps {
     filename: string;
 }
 
 const PreviewImage = ({filename}: PreviewImageProps) => {
-    const file = useSelector((state:RootState) => selectFileByName(state, filename))
+    const file = useSelector((state: RootState) => selectFileByName(state, filename))
     if (!file) {
         return null;
     }
@@ -35,10 +35,12 @@ const PreviewImage = ({filename}: PreviewImageProps) => {
                     {Object.keys(image.sizes)
                         .map(key => (
                             <div className={'text-muted size-list'} key={key}>
-                                <div><a href={linkPath(image.filename, key as ImageSizePath)} target="_blank">{image.sizes[key as ImageSizePath]?.width ?? '?'}x{image.sizes[key as ImageSizePath]?.height ?? '?'}</a></div>
+                                <div><a href={linkPath(image.filename, key as ImageSizePath)}
+                                        target="_blank">{image.sizes[key as ImageSizePath]?.width ?? '?'}x{image.sizes[key as ImageSizePath]?.height ?? '?'}</a>
+                                </div>
                                 <div>{numeral(image.sizes[key as ImageSizePath]?.size).format((image.sizes[key as ImageSizePath]?.size ?? 0) > 1000 ? '0.0b' : '0b')}</div>
                             </div>
-                            ))}
+                        ))}
                 </figcaption>
 
             )}

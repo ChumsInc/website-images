@@ -1,30 +1,33 @@
 import React from 'react';
-import {AlertList} from "chums-connected-components";
+
 import DropTarget from "../components/DropTarget";
 import FileList from "../components/FileList";
 import Preview from "../components/Preview";
-import {ErrorBoundary} from "chums-components";
+import {ErrorBoundary} from "react-error-boundary";
+import ErrorBoundaryFallback from "./ErrorBoundaryFallback";
+import AlertList from "../features/alerts/AlertList";
+import {Col, Container, Row} from "react-bootstrap";
 
 const App = () => {
     return (
-        <div className="container-fluid">
-            <AlertList />
-            <div className="row g-3">
-                <div className="col-md-4">
+        <Container fluid>
+            <AlertList/>
+            <Row className="g-3">
+                <Col md={4}>
                     <h3>Upload</h3>
-                    <DropTarget />
-                    <ErrorBoundary>
-                        <FileList />
+                    <DropTarget/>
+                    <ErrorBoundary fallback={undefined} FallbackComponent={ErrorBoundaryFallback}>
+                        <FileList/>
                     </ErrorBoundary>
-                </div>
-                <div className="col-md-8">
+                </Col>
+                <Col md={8}>
                     <h3>Preview</h3>
-                    <ErrorBoundary>
-                        <Preview />
+                    <ErrorBoundary fallback={undefined} FallbackComponent={ErrorBoundaryFallback}>
+                        <Preview/>
                     </ErrorBoundary>
-                </div>
-            </div>
-        </div>
+                </Col>
+            </Row>
+        </Container>
     )
 }
 

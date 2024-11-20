@@ -1,61 +1,12 @@
-import {createAction, createAsyncThunk, createReducer, createSelector} from "@reduxjs/toolkit";
-import {RootState} from "../app/configureStore";
-import {ProductImage} from 'chums-types';
-import fileList from "../components/FileList";
-
-export type FileStatus = 'pending' | 'uploading' | 'done' | 'error' | 'aborted' | 'timeout';
-
-export const processingStatusList:FileStatus[] = ['pending', 'uploading'];
-export const doneStatusList:FileStatus[] = ['done'];
-export const errorStatusList:FileStatus[] = ['error', 'aborted', 'timeout'];
-
-export const maxFiles = 3;
-
-export interface FileUploadedResult {
-    filepath: string,
-    mimetype: string,
-    mtime: string,
-    newFilename: string,
-    originalFilename: string,
-    size: number,
-}
-
-export interface FileProgress {
-    filename: string,
-    progress: number,
-    status: FileStatus,
-    thumb?: string,
-    image?: ProductImage,
-    timestamp?: number,
-    result?: FileUploadedResult;
-}
-
-export interface FilesReducerState {
-    list: FileProgress[],
-}
-
-export const selectFiles = (state: RootState) => state.files.list;
-export const selectInProcessCount = (state: RootState) => state.files.list.filter(f => processingStatusList.includes(f.status)).length;
-export const selectUploadingCount = (state:RootState) => state.files.list.filter(f => f.status === 'uploading').length;
-export const selectPendingCount = (state:RootState) => state.files.list.filter(f => f.status === 'pending').length;
-
-export const selectFileByName = createSelector(
-    (state:RootState) => state.files.list,
-    (state:RootState, fileName:string) => fileName,
-    (list:FileProgress[], fileName:string) => {
-        const [file] = list.filter(f => f.filename === fileName);
-        return file ?? null;
-    }
-)
-
-const defaultState: FilesReducerState = {
-    list: []
-}
+import {createAction, createAsyncThunk} from "@reduxjs/toolkit";
+import {ProductImage} from "chums-types";
+import {RootState} from "../../app/configureStore";
+import {FileStatus, maxFiles, selectPendingCount, selectUploadingCount} from "../files";
 
 export const clearFiles = createAction('files/clearFiles');
 export const appendFile = createAction<string>('files/appendFile');
 export const initFile = createAction<string>('files/file/loadstart')
-const completeFile = createAction('files/file/done', (filename: string, thumb: string, image: ProductImage) => {
+export const completeFile = createAction('files/file/done', (filename: string, thumb: string, image: ProductImage) => {
     return {
         payload: {
             filename,
@@ -64,7 +15,7 @@ const completeFile = createAction('files/file/done', (filename: string, thumb: s
         }
     }
 })
-const abortFile = createAction('files/file/abort', (filename: string, status: FileStatus) => {
+export const abortFile = createAction('files/file/abort', (filename: string, status: FileStatus) => {
     return {
         payload: {
             filename,
@@ -73,7 +24,7 @@ const abortFile = createAction('files/file/abort', (filename: string, status: Fi
     }
 
 })
-const setFileProgress = createAction('files/file/progress', (filename: string, progress: number) => {
+export const setFileProgress = createAction('files/file/progress', (filename: string, progress: number) => {
     return {
         payload: {
             filename,
@@ -181,46 +132,3 @@ export const sendFile = createAsyncThunk<void, File>(
         }
     }
 )
-
-const reducer = createReducer(defaultState, (builder) => {
-    builder
-        .addCase(clearFiles, (state) => {
-            state.list = [];
-        })
-        .addCase(appendFile, (state, action) => {
-            const [existing] = state.list.filter(f => f.filename === action.payload);
-            if (existing) {
-                existing.progress = 0;
-                existing.status = 'pending';
-            } else {
-                state.list.push({
-                    filename: action.payload,
-                    progress: 0,
-                    status: "pending"
-                })
-            }
-        })
-        .addCase(initFile, (state, action) => {
-            state.list.filter(f => f.filename === action.payload).forEach(file => file.status = 'uploading');
-        })
-        .addCase(completeFile, (state, action) => {
-            state.list.filter(f => f.filename === action.payload.filename)
-                .forEach(file => {
-                    file.status = 'done';
-                    file.thumb = action.payload.thumb;
-                    file.image = action.payload.image;
-                    file.timestamp = new Date().valueOf()
-                });
-        })
-        .addCase(setFileProgress, (state, action) => {
-            state.list.filter(f => f.filename === action.payload.filename)
-                .forEach(file => file.progress = action.payload.progress);
-        })
-        .addCase(abortFile, (state, action) => {
-            state.list.filter(f => f.filename === action.payload.filename)
-                .forEach(file => file.status = action.payload.status);
-        })
-});
-
-
-export default reducer;
